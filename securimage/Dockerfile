@@ -13,4 +13,3 @@ RUN docker-php-ext-install gd
 
 COPY src/ /var/www/html/
 EXPOSE 80
-
