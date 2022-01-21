@@ -69,7 +69,7 @@ func main() {
 		time.Sleep(1 * time.Millisecond)
 
 		if i%100 == 0 {
-			log.Printf("progress: %%%f\n", float64(i)/float64(dataSize))
+			log.Printf("progress: %%%f\n", float64(i)/float64(dataSize)*100)
 		}
 	}
 

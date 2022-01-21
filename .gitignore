@@ -1,1 +1,4 @@
 bin
+crawler/data/test
+crawler/data/train
+crawler/data/validate
