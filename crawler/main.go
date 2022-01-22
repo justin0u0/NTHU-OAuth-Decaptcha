@@ -9,13 +9,13 @@ import (
 	"os"
 	"path"
 	"strconv"
-	"time"
 )
 
 var (
 	host      string
 	port      string
 	dataSize  int
+	baseIndex int
 	outputDir string
 )
 
@@ -23,6 +23,7 @@ func init() {
 	flag.StringVar(&host, "host", "localhost", "host of the securimage server")
 	flag.StringVar(&port, "port", ":8080", "port of the securimage server")
 	flag.IntVar(&dataSize, "dataSize", 100, "number of data generated")
+	flag.IntVar(&baseIndex, "baseIndex", 0, "base index of data")
 	flag.StringVar(&outputDir, "outputDir", "./crawler/data", "output directory")
 }
 
@@ -60,13 +61,11 @@ func main() {
 	var csvRows [][]string
 
 	for i := 0; i < dataSize; i++ {
-		fileName := "captcha-" + strconv.Itoa(i) + ".png"
+		fileName := "captcha-" + strconv.Itoa(baseIndex+i) + ".png"
 
 		code := generate(fileName)
 
 		csvRows = append(csvRows, []string{fileName, code})
-
-		time.Sleep(1 * time.Millisecond)
 
 		if i%100 == 0 {
 			log.Printf("progress: %%%f\n", float64(i)/float64(dataSize)*100)

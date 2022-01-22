@@ -1,4 +1,8 @@
 bin
+
+.DS_Store
+
 crawler/data/test
 crawler/data/train
 crawler/data/validate
+
