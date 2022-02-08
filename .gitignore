@@ -2,7 +2,6 @@ bin
 
 .DS_Store
 
-crawler/data/test
-crawler/data/train
-crawler/data/validate
+crawler/data
+!crawler/data/demo
 
