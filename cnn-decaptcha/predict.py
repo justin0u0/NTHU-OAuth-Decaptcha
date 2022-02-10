@@ -10,6 +10,7 @@ def test(image_path, model):
     img = Image.open(image_path)
     data = [np.array(img) / 255.0]
     data = np.stack(data)
+    print(data.shape)
     predictions = model.predict(data)
     ans = ""
     for i in range(4):

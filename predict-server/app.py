@@ -1,9 +1,11 @@
+from flask import Flask, request
 from tensorflow import keras
 from PIL import Image
+
 import numpy as np
-from flask import Flask
-import requests
 import threading
+import requests
+import os
 
 app = Flask(__name__)
 
@@ -16,20 +18,23 @@ model = keras.models.load_model('./model/saved_model.h5')
 base_url = 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php'
 
 def fetch_predict(captchaId, sessionId, i, result):
+	fileurl = f'./temp/{captchaId}-{sessionId}-{i}.png'
 	url = f'{base_url}?id={captchaId}'
 
-	with open(f'./temp/{captchaId}-{sessionId}-{i}.png', 'wb') as f:
+	with open(fileurl, 'wb') as f:
 		cookies = {'PHPSESSID': sessionId}
 
 		f.write(requests.get(url, cookies=cookies).content)
 
-	code = predict(url)
+	code = predict(fileurl)
 
-	result[url] = code
+	os.remove(fileurl)
+
+	result[fileurl] = code
 
 def predict(url):
 	img = Image.open(url)
-	data = np.stack(list(np.array(img) / 255.0))
+	data = np.stack([np.array(img) / 255.0])
 	predictions = model.predict(data)
 
 	code = [np.argmax(predictions[i][0]) for i in range(4)]
@@ -42,8 +47,8 @@ def healthz():
 
 @app.route('/decaptcha')
 def decaptcha():
-	captchaId = requests.args.get('captchaId')
-	sessionId = requests.args.get('sessionId')
+	captchaId = request.args.get('captchaId')
+	sessionId = request.args.get('sessionId')
 
 	result = {}
 	threads = []
@@ -56,7 +61,7 @@ def decaptcha():
 
 	answer = []
 	for i in range(4):
-		answer.append(str(np.bitcount([result[k][0] for k in result]).argmax()))
+		answer.append(str(np.bincount([result[k][i] for k in result]).argmax()))
 
 	code = ''.join(answer)
 

@@ -4,3 +4,5 @@ bin
 
 crawler/data
 !crawler/data/demo
+
+__pycache__/
