@@ -1,0 +1,14 @@
+{
+	"name": "NTHU OAuth Decaptcha",
+	"description": "Decaptcha the captcha code on NTHU OAuth page and automatically applied the value on the form.",
+	"version": "1.0",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "background.js"
+	},
+	"permissions": [
+		"webRequest",
+		"scripting"
+	],
+	"host_permissions": ["https://oauth.ccxp.nthu.edu.tw/v1.1/authorize.php"]
+}
