@@ -1,6 +1,5 @@
 
-// FIXME: replace me with the server url
-const baseURL = 'https://ff32-61-216-80-115.ngrok.io/decaptcha';
+const baseURL = 'https://nthu-oauth-decaptcha.herokuapp.com/decaptcha';
 
 const parseCookie = (cookie) => cookie
 	.split(';')
