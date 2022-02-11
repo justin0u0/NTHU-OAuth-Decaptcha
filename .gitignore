@@ -5,4 +5,6 @@ bin
 crawler/data
 !crawler/data/demo
 
+venv
+
 __pycache__/
