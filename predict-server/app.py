@@ -17,12 +17,12 @@ model = keras.models.load_model('./model/saved_model.h5')
 
 base_url = 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php'
 
-def fetch_predict(captchaId, sessionId, i, result):
-	fileurl = f'./temp/{captchaId}-{sessionId}-{i}.png'
-	url = f'{base_url}?id={captchaId}'
+def fetch_predict(captcha_id, session_id, i, result):
+	fileurl = f'./temp/{captcha_id}-{session_id}-{i}.png'
+	url = f'{base_url}?id={captcha_id}'
 
 	with open(fileurl, 'wb') as f:
-		cookies = {'PHPSESSID': sessionId}
+		cookies = {'PHPSESSID': session_id}
 
 		f.write(requests.get(url, cookies=cookies).content)
 
@@ -47,13 +47,13 @@ def healthz():
 
 @app.route('/decaptcha')
 def decaptcha():
-	captchaId = request.args.get('captchaId')
-	sessionId = request.args.get('sessionId')
+	captcha_id = request.args.get('captchaId')
+	session_id = request.args.get('sessionId')
 
 	result = {}
 	threads = []
 	for i in range(config['samples']):
-		threads.append(threading.Thread(target = fetch_predict, args = (captchaId, sessionId, i, result)))
+		threads.append(threading.Thread(target = fetch_predict, args = (captcha_id, session_id, i, result)))
 		threads[i].start()
 	
 	for i in range(config['samples']):
