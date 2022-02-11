@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 config = {
-	'samples': 5
+	'samples': 3
 }
 
 model = keras.models.load_model('./model/saved_model.h5')
