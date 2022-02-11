@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 from tensorflow import keras
 from PIL import Image
 
@@ -8,6 +9,7 @@ import requests
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 config = {
 	'samples': 9
