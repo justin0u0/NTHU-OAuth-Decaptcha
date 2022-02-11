@@ -59,10 +59,8 @@ def decaptcha():
 	for i in range(config['samples']):
 		threads[i].join()
 
-	answer = []
+	code = ''
 	for i in range(4):
-		answer.append(str(np.bincount([result[k][i] for k in result]).argmax()))
-
-	code = ''.join(answer)
+		code += str(np.bincount([result[k][i] for k in result]).argmax())
 
 	return {'code': code}
