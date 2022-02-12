@@ -2,11 +2,11 @@ from flask import Flask, request
 from flask_cors import CORS
 from tensorflow import keras
 from PIL import Image
+from io import BytesIO
 
 import numpy as np
 import threading
 import requests
-import os
 
 app = Flask(__name__)
 CORS(app)
@@ -20,23 +20,18 @@ model = keras.models.load_model('./model/saved_model.h5')
 base_url = 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php'
 
 def fetch_predict(captcha_id, session_id, i, result):
-	fileurl = f'./temp/{captcha_id}-{session_id}-{i}.png'
 	url = f'{base_url}?id={captcha_id}'
+	cookies = {'PHPSESSID': session_id}
 
-	with open(fileurl, 'wb') as f:
-		cookies = {'PHPSESSID': session_id}
+	resp = requests.get(url, cookies=cookies)
 
-		f.write(requests.get(url, cookies=cookies).content)
+	code = predict(resp.content)
 
-	code = predict(fileurl)
+	result[str(i)] = code
 
-	os.remove(fileurl)
-
-	result[fileurl] = code
-
-def predict(url):
-	img = Image.open(url)
-	data = np.stack([np.array(img) / 255.0])
+def predict(image_bytes):
+	image = Image.open(BytesIO(image_bytes))
+	data = np.stack([np.array(image) / 255.0])
 	predictions = model.predict(data)
 
 	code = [np.argmax(predictions[i][0]) for i in range(4)]
