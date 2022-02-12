@@ -31,3 +31,11 @@ Reference:
 - https://stackoverflow.com/questions/61191925/install-tensorflow-2-x-only-for-cpu-using-pip
 - https://devcenter.heroku.com/articles/slug-compiler#slug-size
 - https://www.tensorflow.org/install/pip#package-location
+
+# New Relic Addons
+
+To prevent heroku dyno from sleeping every 30 minutes. We add `newrelic` addon to ping the server health check endpoint every 15 minutes.
+
+References:
+- https://www.datacrunch.ca/2021/11/01/newrelic-heroku.html
+- https://docs.newrelic.com/docs/apm/agents/python-agent/hosting-services/python-agent-heroku/
