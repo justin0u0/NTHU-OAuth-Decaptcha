@@ -2,4 +2,6 @@ chrome
 cnn-decaptcha
 crawler
 securimage
+assets
 go.mod
+README.md
