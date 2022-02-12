@@ -64,3 +64,13 @@ chrome.webRequest.onBeforeSendHeaders.addListener(async(details) => {
 	await chrome.scripting.executeScript(injection);
 
 }, requestFilter, ['requestHeaders', 'extraHeaders']);
+
+const urlFilter = {
+	urls: [
+		{ urlPrefix: 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php' }
+	]
+};
+
+chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+	// workaround to activate service worker
+}, urlFilter);
