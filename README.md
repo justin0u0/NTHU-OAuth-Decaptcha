@@ -37,6 +37,8 @@ Install the extension via the Chrome web store: Not available yet.
 3. Turn on the developer mode.
 4. Click the **Load unpacked** button and choose the `chrome` folder inside the repo.
 
+**`If you like the extension, please leave a star on the repository 💙.`**
+
 # Demo
 
 https://user-images.githubusercontent.com/38185674/153715284-ad46c0b8-2a15-400f-83d1-ecd59d89fbcb.mp4
