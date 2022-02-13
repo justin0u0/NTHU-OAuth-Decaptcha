@@ -18,7 +18,7 @@ idna==3.3
 importlib-metadata==4.11.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
-keras==2.7.0
+keras==2.8.0
 Keras-Preprocessing==1.1.2
 libclang==13.0.0
 Markdown==3.3.6
@@ -38,10 +38,11 @@ six==1.16.0
 tensorboard==2.8.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow-cpu==2.7.1
+tensorflow-cpu==2.8.0
 tensorflow-estimator==2.7.0
 tensorflow-io-gcs-filesystem==0.24.0
 termcolor==1.1.0
+tf-estimator-nightly==2.8.0.dev2021122109
 typing-extensions==4.0.1
 urllib3==1.26.8
 Werkzeug==2.0.3
