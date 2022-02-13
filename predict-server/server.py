@@ -6,6 +6,7 @@ from PIL import Image
 
 import numpy as np
 import requests
+import threading
 
 app = Flask(__name__)
 CORS(app)
@@ -18,26 +19,19 @@ model = keras.models.load_model('./model/saved_model.h5')
 
 base_url = 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php'
 
-def fetch_predict(captcha_id, session_id):
+def fetch(captcha_id, session_id, images_array):
 	url = f'{base_url}?id={captcha_id}'
 	cookies = {'PHPSESSID': session_id}
 
-	image_bytes = []
 	for _ in range(config['samples']):
 		resp = requests.get(url, cookies=cookies)
-		image_bytes.append(resp.content)
-
-	return predict(image_bytes)
-
-def predict(images_bytes):
-	images_array = []
-	for image_bytes in images_bytes:
-		image = Image.open(BytesIO(image_bytes))
+		image = Image.open(BytesIO(resp.content))
 		images_array.append(np.array(image) / 255.0)
 
+def predict(images_array):
 	data = np.stack(images_array)
 	predictions = model.predict(data)
-	
+
 	codes = [[np.argmax(predictions[i][j]) for j in range(config['samples'])] for i in range(4)]
 
 	return codes
@@ -51,7 +45,16 @@ def decaptcha():
 	captcha_id = request.args.get('captchaId')
 	session_id = request.args.get('sessionId')
 
-	codes = fetch_predict(captcha_id, session_id)
+	images_array = []
+	threads = []
+	for i in range(config['samples']):
+		threads.append(threading.Thread(target = fetch, args = (captcha_id, session_id, images_array)))
+		threads[i].start()
+
+	for i in range(config['samples']):
+		threads[i].join()
+
+	codes = predict(images_array)
 
 	code = ''
 	for i in range(4):
