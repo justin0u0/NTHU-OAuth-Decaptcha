@@ -23,7 +23,6 @@ Keras-Preprocessing==1.1.2
 libclang==13.0.0
 Markdown==3.3.6
 MarkupSafe==2.0.1
-newrelic==7.4.0.172
 numpy==1.22.2
 oauthlib==3.2.0
 opt-einsum==3.3.0
@@ -38,7 +37,7 @@ six==1.16.0
 tensorboard==2.8.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow-cpu==2.7.0
+tensorflow-cpu==2.7.1
 tensorflow-estimator==2.7.0
 tensorflow-io-gcs-filesystem==0.24.0
 termcolor==1.1.0

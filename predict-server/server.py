@@ -1,11 +1,10 @@
 from flask import Flask, request
 from flask_cors import CORS
 from tensorflow import keras
-from PIL import Image
 from io import BytesIO
+from PIL import Image
 
 import numpy as np
-import threading
 import requests
 
 app = Flask(__name__)
@@ -19,24 +18,29 @@ model = keras.models.load_model('./model/saved_model.h5')
 
 base_url = 'https://oauth.ccxp.nthu.edu.tw/v1.1/captchaimg.php'
 
-def fetch_predict(captcha_id, session_id, i, result):
+def fetch_predict(captcha_id, session_id):
 	url = f'{base_url}?id={captcha_id}'
 	cookies = {'PHPSESSID': session_id}
 
-	resp = requests.get(url, cookies=cookies)
+	image_bytes = []
+	for _ in range(config['samples']):
+		resp = requests.get(url, cookies=cookies)
+		image_bytes.append(resp.content)
 
-	code = predict(resp.content)
+	return predict(image_bytes)
 
-	result[str(i)] = code
+def predict(images_bytes):
+	images_array = []
+	for image_bytes in images_bytes:
+		image = Image.open(BytesIO(image_bytes))
+		images_array.append(np.array(image) / 255.0)
 
-def predict(image_bytes):
-	image = Image.open(BytesIO(image_bytes))
-	data = np.stack([np.array(image) / 255.0])
+	data = np.stack(images_array)
 	predictions = model.predict(data)
+	
+	codes = [[np.argmax(predictions[i][j]) for j in range(config['samples'])] for i in range(4)]
 
-	code = [np.argmax(predictions[i][0]) for i in range(4)]
-
-	return code
+	return codes
 
 @app.route('/')
 def healthz():
@@ -47,18 +51,11 @@ def decaptcha():
 	captcha_id = request.args.get('captchaId')
 	session_id = request.args.get('sessionId')
 
-	result = {}
-	threads = []
-	for i in range(config['samples']):
-		threads.append(threading.Thread(target = fetch_predict, args = (captcha_id, session_id, i, result)))
-		threads[i].start()
-	
-	for i in range(config['samples']):
-		threads[i].join()
+	codes = fetch_predict(captcha_id, session_id)
 
 	code = ''
 	for i in range(4):
-		code += str(np.bincount([result[k][i] for k in result]).argmax())
+		code += str(np.bincount(codes[i]).argmax())
 
 	return {'code': code}
 
