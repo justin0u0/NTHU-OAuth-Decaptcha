@@ -70,14 +70,6 @@ CNN_model = keras.models.load_model(model_path)
 predictions = CNN_model.predict(test_data)
 total = predictions[0].shape[0]
 
-total = predictions[0].shape[0]
-# print(total, len(predictions))
-# print(len(test_label))
-# print(test_label[0].shape)
-# print(np.argmax(predictions[0][0]))
-# print(predictions[0][0])
-# print(test_label[0][0])
-
 print("Test label")
 print("shape: ", end='')
 print(len(test_label), test_label[0].shape)
