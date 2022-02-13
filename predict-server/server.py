@@ -30,7 +30,7 @@ def fetch(captcha_id, session_id, images_array):
 
 def predict(images_array):
 	data = np.stack(images_array)
-	predictions = model.predict(data)
+	predictions = model.predict_on_batch(data)
 
 	codes = [[np.argmax(predictions[i][j]) for j in range(config['samples'])] for i in range(4)]
 
