@@ -8,3 +8,6 @@ crawler/data
 venv
 
 __pycache__/
+
+key.pem
+
