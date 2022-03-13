@@ -1,7 +1,10 @@
 from tensorflow.keras.models import load_model, save_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from PIL import Image
 
+import time
 import numpy as np
+import tensorflow_model_optimization as tfmot
 
 model_path = "model/captcha_model_new_1.h5"
 export_path = "model/pruned_model.h5"
@@ -12,13 +15,16 @@ def test(image_paths, model):
         data.append(img_to_array(load_img(pth)) / 255.0)
     data = np.stack(data)
     print(data.shape)
-    predictions = model.predict(data)
+    start = time.time()
+    predictions = model(data)
     ans = ""
     for j in range(3):
         for i in range(4):
             ans += str(np.argmax(predictions[i][j]))
         ans += ", "
     print(ans)
+    end = time.time()
+    print('time: ', end - start)
     return ans
 
 CNN_model = load_model(model_path)

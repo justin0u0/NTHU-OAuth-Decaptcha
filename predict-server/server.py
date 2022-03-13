@@ -7,6 +7,7 @@ from PIL import Image
 import numpy as np
 import requests
 import threading
+# import time
 
 app = Flask(__name__)
 CORS(app)
@@ -30,7 +31,7 @@ def fetch(captcha_id, session_id, images_array):
 
 def predict(images_array):
 	data = np.stack(images_array)
-	predictions = model.predict_on_batch(data)
+	predictions = model(data)
 
 	codes = [[np.argmax(predictions[i][j]) for j in range(config['samples'])] for i in range(4)]
 
@@ -42,6 +43,7 @@ def healthz():
 
 @app.route('/decaptcha')
 def decaptcha():
+	# start = time.time()
 	captcha_id = request.args.get('captchaId')
 	session_id = request.args.get('sessionId')
 
@@ -53,12 +55,20 @@ def decaptcha():
 
 	for i in range(config['samples']):
 		threads[i].join()
+	
+	# fetch_time_end = time.time()
 
 	codes = predict(images_array)
+
+	# predict_time = time.time()
 
 	code = ''
 	for i in range(4):
 		code += str(np.bincount(codes[i]).argmax())
+
+	# print('fetch time: {}'.format(fetch_time_end - start))
+	# print('predict time: {}'.format(predict_time - fetch_time_end))
+	# print('total time: {}'.format(time.time() - start))
 
 	return {'code': code}
 
