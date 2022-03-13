@@ -1,5 +1,6 @@
 
-const baseURL = 'https://nthu-oauth-decaptcha.herokuapp.com/decaptcha';
+// const baseURL = 'https://nthu-oauth-decaptcha.justin0u0.workers.dev/decaptcha';
+const baseURL = 'https://nthu-oauth-decaptcha.justin0u0.com:8443/decaptcha';
 
 const parseCookie = (cookie) => cookie
 	.split(';')

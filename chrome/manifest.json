@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "NTHU OAuth Decaptcha",
 	"description": "Decaptcha the captcha code on NTHU OAuth page and automatically applied the value on the form.",
-	"version": "1.1",
+	"version": "1.2",
 	"icons": {
 		"16": "images/icon16.png",
 		"32": "images/icon32.png",
@@ -19,6 +19,6 @@
 	],
 	"host_permissions": [
 		"https://oauth.ccxp.nthu.edu.tw/v1.1/authorize.php",
-		"https://nthu-oauth-decaptcha.herokuapp.com/decaptcha"
+		"https://nthu-oauth-decaptcha.justin0u0.com:8443/decaptcha"
 	]
 }
