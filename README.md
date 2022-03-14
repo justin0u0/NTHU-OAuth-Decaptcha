@@ -28,7 +28,7 @@ See [Securimage](https://github.com/justin0u0/NTHU-OAuth-Decaptcha/tree/master/s
 
 # Installation
 
-Install the extension via the Chrome web store: Not available yet.
+Install the extension via Chrome WebStore: https://chrome.google.com/webstore/detail/nthu-oauth-decaptcha/mflpajkffpiibelpmffonolenndbgogp.
 
 ## Manual Installation
 
