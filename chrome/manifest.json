@@ -14,8 +14,7 @@
 	},
 	"permissions":[
 		"webRequest",
-		"scripting",
-		"webNavigation"
+		"scripting"
 	],
 	"host_permissions": [
 		"https://oauth.ccxp.nthu.edu.tw/v1.1/authorize.php",
