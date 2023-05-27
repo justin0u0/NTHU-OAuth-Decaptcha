@@ -5,8 +5,7 @@ const decaptcha = async(maxRetries = 10) => {
 		}
 	}
 
-	const model = await tf.loadLayersModel('https://raw.githubusercontent.com/justin0u0/NTHU-OAuth-Decaptcha/master/cnn-decaptcha/model/tensorflowjs/model.json');
-
+	const model = await tf.loadLayersModel(chrome.runtime.getURL('/model/model.json'));
 	const imageElement = document.getElementById('captcha_image');
 
 	const imageTensor = tf.browser.fromPixels(imageElement);
